@@ -1,0 +1,19 @@
+
+
+  <mat-form-field>
+    <label>Id</label>
+  <input matInput type="text" [(ngModel)]="EmpId">
+</mat-form-field><br>
+<mat-form-field>
+   <label>Name</label>
+  <input matInput type="text" [(ngModel)]="EmpName">
+</mat-form-field><br>
+<mat-form-field>
+  <label>Salary</label>
+  <input matInput type="text">
+</mat-form-field><br>
+<mat-form-field>
+  <label>Department</label>
+  <input matInput type="text">
+</mat-form-field><br>
+<button mat-raised-button (click)="onSubmit()">Add Employee</button>
