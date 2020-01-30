@@ -1,0 +1,35 @@
+<mat-toolbar>......Registration Form.......</mat-toolbar>
+<mat-card>
+<form [formGroup]="registerForm"(ngSubmit)="onsubmit()">
+<mat-form-field>
+<input matInput type="text"placeholder="UserName" required formControlName="name"required>
+<mat-error *ngIf="registerForm.controls.name.errors?.required">Name is required</mat-error>
+</mat-form-field>
+<br>
+<mat-form-field>
+<input matInput type="text" placeholder="Mobile Number" required formControlName="number" >
+<mat-error *ngIf="registerForm.controls.number.errors?.required">Mobile is required</mat-error>
+<mat-error *ngIf="registerForm.controls.number.errors?.maxLength">Mobile is required</mat-error>
+
+</mat-form-field>
+<br>
+
+<mat-form-field>
+<input matInput type="email"placeholder="Email"formControlName="email"required>
+<mat-error *ngIf="registerForm.controls.email.errors?.required">Email is required</mat-error>
+<mat-error *ngIf="registerForm.controls.email.errors?.email">Email is not valid</mat-error>
+
+</mat-form-field>
+<br>
+
+<mat-form-field>
+<input matInput type="password"placeholder="Password"formControlName="password"required>
+<mat-error *ngIf="registerForm.controls.password.errors?.pattern">Password Should Contain 1 upperCase and 1 lowerCase and one digit.</mat-error>
+<mat-error *ngIf="registerForm.controls.password.errors?.required">Password is required</mat-error>
+ </mat-form-field>
+<br>
+<button type="submit" mat-raised-buttoncolor="primary">Click</button>
+
+</form>
+</mat-card>
+

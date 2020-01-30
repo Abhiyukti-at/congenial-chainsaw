@@ -1,2 +1,11 @@
-<app-empform (details)="onData($event)"></app-empform>
-<app-showemp [details]="storedData"></app-showemp>
+<!-- <app-empform (details)="onData($event)"></app-empform>
+<app-showemp [details]="storedData"></app-showemp> -->
+<!-- <app-formvalidation></app-formvalidation>
+<app-register-form></app-register-form> -->
+<nav>
+<a routerLink="/Login" routerLinkActive="active">Login</a><br>
+<a routerLink="/Register" routerLinkActive="active">Register</a>
+<!-- <a routerLink="/Update" routerLinkActive="active">Update User</a><br>
+<a routerLink="/Show" routerLinkActive="active">Show User</a>-->
+</nav>
+<router-outlet></router-outlet>
