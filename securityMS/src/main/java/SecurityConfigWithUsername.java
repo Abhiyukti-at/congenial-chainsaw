@@ -11,7 +11,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfigWithUsername {
 
 //    @Bean
@@ -34,4 +33,5 @@ public class SecurityConfigWithUsername {
 //
 //        return new InMemoryUserDetailsManager(userDetails);
 //    }
+
 }

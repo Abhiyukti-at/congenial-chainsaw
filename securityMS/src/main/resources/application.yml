@@ -4,8 +4,8 @@ spring:
     security:
         user:
             name: nikita
-        password: nikita
-        roles: ADMIN
+            password: nikita
+            roles: ADMIN
 #    datasource:
 #        driver-class-name: org.h2.Driver
 #        password: password
