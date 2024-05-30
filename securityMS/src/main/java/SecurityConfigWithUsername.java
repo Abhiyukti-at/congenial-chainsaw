@@ -34,4 +34,10 @@ public class SecurityConfigWithUsername {
 //        return new InMemoryUserDetailsManager(userDetails);
 //    }
 
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+       return http.authorizeHttpRequests((authorize)->authorize.anyRequest()
+                .authenticated()).httpBasic(Customizer.withDefaults()).build();
+    }
 }
