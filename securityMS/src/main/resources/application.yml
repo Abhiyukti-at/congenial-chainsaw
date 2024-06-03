@@ -11,14 +11,14 @@ spring:
 #        password: password
 #        url: jdbc:h2:mem:employee_db
 #        username: sa
-#    jpa:
-#        hibernate:
-#            ddl-auto: update
-#        show-sql: true
         url: jdbc:mysql://localhost:3306/employee_db
         username: root
         password: Nikita@123!
         driver-class-name: com.mysql.cj.jdbc.Driver
+#        jpa:
+#            hibernate:
+#                ddl-auto: update
+#            show-sql: true
 
 server:
-    port: 9090
+    port: 9095
