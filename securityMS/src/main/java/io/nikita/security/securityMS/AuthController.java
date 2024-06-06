@@ -11,14 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/v1")
 @AllArgsConstructor
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private JwtUtil jwtUtil;
 
     @ResponseBody
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/login",method = RequestMethod.GET)
     public ResponseEntity login(@RequestBody LoginRequest loginReq)  {
 
     try {

@@ -14,8 +14,8 @@ public class UserService implements UserDetailsService {
 @Autowired
     UserRepository userRepository;
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByName(email);
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        User user = userRepository.findByName(name);
         List<String> roles = new ArrayList<>();
         roles.add("USER");
         UserDetails userDetails =
