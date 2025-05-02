@@ -3,6 +3,7 @@ package io.nikita.BankApp.Configuration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -23,9 +24,13 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        //disabled te password check for non prod environment
+        //comment if-else condition to bypass password check
+        if (passwordEncoder.matches(password, userDetails.getPassword())) {
+            //custom authentication can be done here
             return new UsernamePasswordAuthenticationToken(username, password, userDetails.getAuthorities());
-
+        }else {
+            throw new BadCredentialsException("Invalid credentials");
+        }
     }
 
     @Override
