@@ -21,12 +21,13 @@ public class SecurityConfigProd {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession"))
+                .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession")
+                        .maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/expiredSession"))
                 .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresSecure()) //only https is allowed that is secured
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/myCards", "/myLoan", "/myAccount", "/myBalance").authenticated()
-                .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession").permitAll());
+                .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession","/expiredSession").permitAll());
 
         http.formLogin(FormLoginConfigurer -> FormLoginConfigurer.disable());// to disable form login
         http.formLogin(withDefaults());

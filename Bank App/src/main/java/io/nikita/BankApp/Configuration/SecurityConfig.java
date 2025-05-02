@@ -23,12 +23,13 @@ public class SecurityConfig {
 //        http.authorizeHttpRequests((requests) -> requests.anyRequest().denyAll()); // To deny all requests
 //        http.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll()); // To allow all request
         http
-                .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession"))
+                .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession")
+                        .maximumSessions(3).maxSessionsPreventsLogin(true).expiredUrl("/expiredSession"))// max 3 session allowed,and more than that you'll be redirect
                 .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresInsecure()) //to have non-secure
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myCards", "/myLoan", "/myAccount", "/myBalance").authenticated()
-                        .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession").permitAll());
+                        .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession","/expiredSession").permitAll());
 
         http.formLogin(FormLoginConfigurer -> FormLoginConfigurer.disable());// to disable form login
 //        http.httpBasic(basicFormLoginConfigurer -> basicFormLoginConfigurer.disable());//to disable basic login
