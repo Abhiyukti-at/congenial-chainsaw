@@ -20,15 +20,17 @@ public class SecurityConfigProd {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresSecure()) //only https is allowed that is secured
+        http
+                .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession"))
+                .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresSecure()) //only https is allowed that is secured
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/myCards", "/myLoan", "/myAccount", "/myBalance").authenticated()
-                .requestMatchers("/contact", "/myNotices", "/register", "/error").permitAll());
+                .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession").permitAll());
 
         http.formLogin(FormLoginConfigurer -> FormLoginConfigurer.disable());// to disable form login
         http.formLogin(withDefaults());
-        http.httpBasic(hbc->hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        http.httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
         http.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));// to set global exception handling
         http.exceptionHandling(hse -> hse.accessDeniedHandler(new CustomAccessDeniedHandler()));
         return http.build();

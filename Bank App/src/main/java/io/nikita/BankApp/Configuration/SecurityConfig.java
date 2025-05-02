@@ -22,11 +22,13 @@ public class SecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 //        http.authorizeHttpRequests((requests) -> requests.anyRequest().denyAll()); // To deny all requests
 //        http.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll()); // To allow all request
-        http.requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresInsecure()) //to have non-secure
-                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable());
-        http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/myCards", "/myLoan", "/myAccount", "/myBalance").authenticated()
-                .requestMatchers("/contact", "/myNotices", "/register", "/error").permitAll());
+        http
+                .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession"))
+                .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresInsecure()) //to have non-secure
+                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/myCards", "/myLoan", "/myAccount", "/myBalance").authenticated()
+                        .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession").permitAll());
 
         http.formLogin(FormLoginConfigurer -> FormLoginConfigurer.disable());// to disable form login
 //        http.httpBasic(basicFormLoginConfigurer -> basicFormLoginConfigurer.disable());//to disable basic login
@@ -34,7 +36,9 @@ public class SecurityConfig {
 //        http.httpBasic(withDefaults());//for default configuration
         //Custom exception Handling
         http.httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
-        http.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));// to set global exception handling
+        //basic exception handling does not work together with form login, it supports postman
+//        http.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));// to set global exception handling
+
         http.exceptionHandling(hse -> hse.accessDeniedHandler(new CustomAccessDeniedHandler()));
         return http.build();
     }
