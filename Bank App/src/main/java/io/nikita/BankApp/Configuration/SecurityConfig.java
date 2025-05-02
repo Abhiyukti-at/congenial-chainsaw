@@ -20,31 +20,54 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests((requests) -> requests.anyRequest().denyAll()); // To deny all requests
-//        http.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll()); // To allow all request
-        http
-                .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession")
-                        .maximumSessions(3).maxSessionsPreventsLogin(true).expiredUrl("/expiredSession"))// max 3 session allowed,and more than that you'll be redirect
+        http.sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession").maximumSessions(3).maxSessionsPreventsLogin(true).expiredUrl("/expiredSession"))// max 3 session allowed,and more than that you'll be redirect
                 .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresInsecure()) //to have non-secure
-                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/myCards", "/myLoan", "/myAccount", "/myBalance").authenticated()
-                        .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession","/expiredSession").permitAll());
+                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable()).authorizeHttpRequests((requests) -> requests.requestMatchers("/myCards", "/myLoan", "/myAccount", "/myBalance").authenticated().requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession", "/expiredSession").permitAll());
 
         http.formLogin(FormLoginConfigurer -> FormLoginConfigurer.disable());// to disable form login
-//        http.httpBasic(basicFormLoginConfigurer -> basicFormLoginConfigurer.disable());//to disable basic login
         http.formLogin(withDefaults());
-//        http.httpBasic(withDefaults());//for default configuration
-        //Custom exception Handling
         http.httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
-        //basic exception handling does not work together with form login, it supports postman
-//        http.exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));// to set global exception handling
-
         http.exceptionHandling(hse -> hse.accessDeniedHandler(new CustomAccessDeniedHandler()));
         return http.build();
     }
 
+    /**
+     * This one putting all the other stuff that can be used with comments, we can have a clean method to practise then.
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
 
+//    SecurityFilterChain defaultSecurityFilterChain1(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests((requests) -> requests.anyRequest().denyAll()); // To deny all requests
+//        http.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll()); // to allow all request
+//        http
+//                .sessionManagement(smc -> smc
+//                        .sessionFixation(sfc -> sfc.none())//for disabling session fixation
+//                        .sessionFixation(sfc -> sfc.changeSessionId())// use change session id strategy
+//                        .sessionFixation(sfc -> sfc.newSession())//to create a new session every time
+//                        .sessionFixation(sfc -> sfc.migrateSession())// to use migrate session strategy
+//                        .invalidSessionUrl("/invalidSession")
+//                        .maximumSessions(3).maxSessionsPreventsLogin(true).expiredUrl("/expiredSession"))// max 3 session allowed,and more than that you'll be redirect
+//                .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresInsecure()) //to have non-secure
+//                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
+//                .authorizeHttpRequests((requests) -> requests
+//                        .requestMatchers("/myCards").authenticated()
+//                        .requestMatchers("/expiredSession").permitAll());
+//
+//        http.formLogin(FormLoginConfigurer -> FormLoginConfigurer.disable());// to disable form login
+//        http.httpBasic(basicFormLoginConfigurer -> basicFormLoginConfigurer.disable());//to disable basic login
+//        http.formLogin(withDefaults());
+//        http.httpBasic(withDefaults());//for default configuration
+//        //Custom exception Handling
+//        http.httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+//        //basic exception handling does not work together with form login, it supports postman
+//        http.exceptionHandling(httpSecurityExceptionHandlingConfigurer ->
+//                httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));// to set global exception handling
+//        http.exceptionHandling(hse -> hse.accessDeniedHandler(new CustomAccessDeniedHandler()));
+//        return http.build();
+//    }
     @Bean
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();

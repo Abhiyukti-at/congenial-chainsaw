@@ -1,0 +1,21 @@
+package io.nikita.BankApp.Events;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
+import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.stereotype.Component;
+
+@Component
+@Slf4j
+public class AuthenticationEvent {
+    @EventListener
+    public void OnSuccess(AuthenticationSuccessEvent successEvent) {
+        log.info("Authentication Success for user: {}", successEvent.getAuthentication().getName());
+    }
+
+    @EventListener
+    public void onFailure(AbstractAuthenticationFailureEvent failureEvent) {
+        log.error("Authentication Failed for user: {} due to {}", failureEvent.getAuthentication().getName(), failureEvent.getException().getMessage());
+    }
+}
