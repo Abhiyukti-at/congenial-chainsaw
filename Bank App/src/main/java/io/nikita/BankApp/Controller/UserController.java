@@ -2,7 +2,7 @@ package io.nikita.BankApp.Controller;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import io.nikita.BankApp.Constants;
+import io.nikita.BankApp.Constants.Constants;
 import io.nikita.BankApp.Models.Customer;
 import io.nikita.BankApp.Models.LoginRequestDTO;
 import io.nikita.BankApp.Models.LoginResponseDTO;

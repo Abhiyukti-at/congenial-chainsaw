@@ -58,7 +58,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtTokenValidationFilter(), BasicAuthenticationFilter.class)
                 .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresInsecure()) //to have non-secure
                 .authorizeHttpRequests((requests) -> requests.requestMatchers("/myCards").hasRole("USER")
-                        .requestMatchers("/myLoan").hasRole("USER")
+                        .requestMatchers("/myLoan").authenticated() //just to run method security
                         .requestMatchers("/myAccount").hasRole("USER")
                         .requestMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/user").authenticated()

@@ -2,7 +2,7 @@ package io.nikita.BankApp.Filter;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import io.nikita.BankApp.Constants;
+import io.nikita.BankApp.Constants.Constants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

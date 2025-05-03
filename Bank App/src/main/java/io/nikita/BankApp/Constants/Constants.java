@@ -1,4 +1,4 @@
-package io.nikita.BankApp;
+package io.nikita.BankApp.Constants;
 
 public final class Constants {
     public static final String JWT_SECRET = "JWT_SECRET";

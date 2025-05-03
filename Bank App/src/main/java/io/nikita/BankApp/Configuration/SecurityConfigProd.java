@@ -63,7 +63,7 @@ public class SecurityConfigProd {
                 .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresSecure()); //only https is allowed that is secured
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/myCards").hasRole("USER")
-                .requestMatchers("/myLoan").hasRole("USER")
+                .requestMatchers("/myLoan").authenticated()
                 .requestMatchers("/myAccount").hasRole("USER")
                 .requestMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/user").authenticated()
