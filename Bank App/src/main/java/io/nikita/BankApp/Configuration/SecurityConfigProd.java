@@ -53,7 +53,11 @@ public class SecurityConfigProd {
                 .addFilterAfter(new CSRFCookieFilter(), BasicAuthenticationFilter.class)
                 .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresSecure()); //only https is allowed that is secured
         http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/myCards", "/myLoan", "/myAccount", "/myBalance", "/user").authenticated()
+                .requestMatchers("/myCards").hasRole("USER")
+                .requestMatchers("/myLoan").hasRole("USER")
+                .requestMatchers("/myAccount").hasRole("USER")
+                .requestMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/user").authenticated()
                 .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession", "/expiredSession").permitAll());
 
         http.formLogin(FormLoginConfigurer -> FormLoginConfigurer.disable());// to disable form login

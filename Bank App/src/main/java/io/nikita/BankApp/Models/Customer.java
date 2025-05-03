@@ -1,11 +1,13 @@
 package io.nikita.BankApp.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "customer")
@@ -35,5 +37,9 @@ public class Customer {
 
     @Column(name = "create_dt")
     private Date createDt;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Authority> authorities;
 
 }

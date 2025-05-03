@@ -51,7 +51,11 @@ public class SecurityConfig {
                 .addFilterAfter(new CSRFCookieFilter(), BasicAuthenticationFilter.class)// max 3 session allowed,and more than that you'll be redirect
                 .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresInsecure()) //to have non-secure
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/myCards", "/myLoan", "/myAccount", "/myBalance","/user").authenticated()
+                        .requestMatchers("/myCards").hasRole("USER")
+                        .requestMatchers("/myLoan").hasRole("USER")
+                        .requestMatchers("/myAccount").hasRole("USER")
+                        .requestMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/user").authenticated()
                         .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession", "/expiredSession").permitAll());
 
         http.formLogin(FormLoginConfigurer -> FormLoginConfigurer.disable());// to disable form login
@@ -86,6 +90,14 @@ public class SecurityConfig {
 //                        .requestMatchers("/myCards").authenticated()
 //                        .requestMatchers("/expiredSession").permitAll());
 //
+    //this is used when you want to assign authorities based access , if user has authority they can access the api
+//                            .requestMatchers("/myCards").hasAuthority("VIEWCARDS")
+//                        .requestMatchers( "/myLoan").hasAuthority("VIEWLOANS")
+//                        .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
+//                        .requestMatchers("/myBalance").hasAnyAuthority("VIEWBALANCE","VIEWACCOUNT")
+//                        .requestMatchers("/user").authenticated()
+
+
 //        http.formLogin(FormLoginConfigurer -> FormLoginConfigurer.disable());// to disable form login
 //        http.httpBasic(basicFormLoginConfigurer -> basicFormLoginConfigurer.disable());//to disable basic login
 //        http.formLogin(withDefaults());
