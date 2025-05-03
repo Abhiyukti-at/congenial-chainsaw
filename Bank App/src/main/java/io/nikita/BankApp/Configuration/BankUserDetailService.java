@@ -24,6 +24,6 @@ public class BankUserDetailService implements UserDetailsService {
        Customer customer= customerRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(customer.getRole()));
-    return new User(customer.getEmail(), customer.getPassword(), authorities);
+    return new User(customer.getEmail(), customer.getPwd(), authorities);
     }
 }
