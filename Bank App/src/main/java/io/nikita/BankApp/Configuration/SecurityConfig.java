@@ -2,7 +2,10 @@ package io.nikita.BankApp.Configuration;
 
 import io.nikita.BankApp.Exception.CustomAccessDeniedHandler;
 import io.nikita.BankApp.Exception.CustomBasicAuthenticationEntryPoint;
+import io.nikita.BankApp.Filter.AuthoritiesLoggingAfterFilter;
+import io.nikita.BankApp.Filter.AuthoritiesLoggingAtFilter;
 import io.nikita.BankApp.Filter.CSRFCookieFilter;
+import io.nikita.BankApp.Filter.RequestValidationBeforeFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +51,10 @@ public class SecurityConfig {
                         .csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
                         .ignoringRequestMatchers("/contact","/register")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-                .addFilterAfter(new CSRFCookieFilter(), BasicAuthenticationFilter.class)// max 3 session allowed,and more than that you'll be redirect
+                .addFilterAfter(new CSRFCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new RequestValidationBeforeFilter(),BasicAuthenticationFilter.class)
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(),BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(),BasicAuthenticationFilter.class)
                 .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresInsecure()) //to have non-secure
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/myCards").hasRole("USER")
