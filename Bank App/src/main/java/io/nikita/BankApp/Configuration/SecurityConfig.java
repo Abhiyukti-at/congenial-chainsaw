@@ -2,17 +2,17 @@ package io.nikita.BankApp.Configuration;
 
 import io.nikita.BankApp.Exception.CustomAccessDeniedHandler;
 import io.nikita.BankApp.Exception.CustomBasicAuthenticationEntryPoint;
-import io.nikita.BankApp.Filter.AuthoritiesLoggingAfterFilter;
-import io.nikita.BankApp.Filter.AuthoritiesLoggingAtFilter;
-import io.nikita.BankApp.Filter.CSRFCookieFilter;
-import io.nikita.BankApp.Filter.RequestValidationBeforeFilter;
+import io.nikita.BankApp.Filter.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,6 +23,8 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import java.util.Arrays;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -32,9 +34,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         CsrfTokenRequestAttributeHandler csrfTokenRequestAttributeHandler = new CsrfTokenRequestAttributeHandler();
-        http
-                .securityContext(contextConfig-> contextConfig.requireExplicitSave(false)) // it is telling the spring context to take care of the session id
-                .sessionManagement(smc -> smc.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+        http.sessionManagement(smc -> smc.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(new CorsConfigurationSource() {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
@@ -42,33 +42,41 @@ public class SecurityConfig {
                         configuration.addAllowedOrigin("http://localhost:4200");
                         configuration.addAllowedHeader("*");
                         configuration.addAllowedMethod("*");
+                        configuration.setExposedHeaders(Arrays.asList("Authorization"));
                         configuration.setAllowCredentials(true);
                         configuration.setMaxAge(3600L);
                         return configuration;
                     }
-                }))
-                .csrf(csrfConfig->csrfConfig
-                        .csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
-                        .ignoringRequestMatchers("/contact","/register")
+                })).csrf(csrfConfig -> csrfConfig.csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
+                        .ignoringRequestMatchers("/contact", "/register","/apiLogin")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CSRFCookieFilter(), BasicAuthenticationFilter.class)
-                .addFilterBefore(new RequestValidationBeforeFilter(),BasicAuthenticationFilter.class)
-                .addFilterAfter(new AuthoritiesLoggingAfterFilter(),BasicAuthenticationFilter.class)
-                .addFilterAt(new AuthoritiesLoggingAtFilter(),BasicAuthenticationFilter.class)
+                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new JwtTokenGenerationFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenValidationFilter(), BasicAuthenticationFilter.class)
                 .requiresChannel(channelConfigurer -> channelConfigurer.anyRequest().requiresInsecure()) //to have non-secure
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/myCards").hasRole("USER")
+                .authorizeHttpRequests((requests) -> requests.requestMatchers("/myCards").hasRole("USER")
                         .requestMatchers("/myLoan").hasRole("USER")
                         .requestMatchers("/myAccount").hasRole("USER")
                         .requestMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/user").authenticated()
-                        .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession", "/expiredSession").permitAll());
+                        .requestMatchers("/contact", "/myNotices", "/register", "/error", "/invalidSession", "/expiredSession","/apiLogin").permitAll());
 
         http.formLogin(FormLoginConfigurer -> FormLoginConfigurer.disable());// to disable form login
         http.formLogin(withDefaults());
         http.httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
         http.exceptionHandling(hse -> hse.accessDeniedHandler(new CustomAccessDeniedHandler()));
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder encoder) {
+        UsernamePasswordAuthenticationProvider authenticationProvider = new UsernamePasswordAuthenticationProvider(userDetailsService, encoder);
+        ProviderManager manager = new ProviderManager(authenticationProvider);
+        manager.setEraseCredentialsAfterAuthentication(false);
+        return manager;
     }
 
     /**
