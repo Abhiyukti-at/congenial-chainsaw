@@ -3,6 +3,7 @@ package io.nikita.BankApp.Configuration;
 import io.nikita.BankApp.Exception.CustomAccessDeniedHandler;
 import io.nikita.BankApp.Filter.CSRFCookieFilter;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -21,6 +22,13 @@ import java.util.Arrays;
 @Configuration
 @Profile("!prod")
 public class SecurityConfig {
+
+    @Value("${spring.security.oauth2.resourceserver.opaque.introspection-uri}")
+    String introspectionUri;
+    @Value("${spring.security.oauth2.resourceserver.opaque.introspection-client-id}")
+    String introspectionClientId;
+    @Value("${spring.security.oauth2.resourceserver.opaque.introspection-client-secret}")
+    String introspectionClientSecret;
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -51,7 +59,10 @@ public class SecurityConfig {
                         .requestMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/user").authenticated()
                         .requestMatchers("/contact", "/myNotices", "/register", "/error").permitAll());
-        http.oauth2ResourceServer(rsc->rsc.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)));
+//        http.oauth2ResourceServer(rsc->rsc.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)));
+        http.oauth2ResourceServer(rsc->rsc.opaqueToken(otc->otc
+                .authenticationConverter(new KeyclockOpaqueRoleConverter()).introspectionUri(this.introspectionUri)
+                .introspectionClientCredentials(this.introspectionClientId,this.introspectionClientSecret)));
         http.exceptionHandling(hse -> hse.accessDeniedHandler(new CustomAccessDeniedHandler()));
         return http.build();
     }

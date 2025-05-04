@@ -5,27 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b9ebeaf4-c770-4d90-993b-e660d8a061b0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Bank App/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Configuration/BankUserDetailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Configuration/ProdUsernamePasswordAuthenticationProvider.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Configuration/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Configuration/SecurityConfigProd.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Configuration/SecurityConfigProd.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Configuration/UsernamePasswordAuthenticationProvider.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Constants/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Constants/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Controller/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Controller/BalanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Controller/BalanceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Controller/CardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Controller/CardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Controller/LoanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Controller/LoanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Filter/AuthoritiesLoggingAfterFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Filter/AuthoritiesLoggingAtFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Filter/JwtTokenGenerationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Filter/JwtTokenValidationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Filter/RequestValidationBeforeFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Models/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/java/io/nikita/BankApp/Models/Customer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Bank App/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/resources/application_dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/resources/application_dev.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bank App/src/main/resources/application_prod.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Bank App/src/main/resources/application_prod.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
