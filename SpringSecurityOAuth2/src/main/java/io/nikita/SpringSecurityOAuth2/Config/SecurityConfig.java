@@ -22,18 +22,18 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    ClientRegistrationRepository clientRegistrationRepository() {
-        ClientRegistration github= githubClientRegistration();
-//        ClientRegistration facebook= facebookClientRegistration();
-        return new InMemoryClientRegistrationRepository(github);
-    }
-
-    private ClientRegistration githubClientRegistration() {
-       return CommonOAuth2Provider.GITHUB.getBuilder("github")
-                .clientId("Ov23livRxqwT0t5jEXrt").clientSecret("8ee1219ebe3c749b5191a013d0b39ff00666b98c").build();
-
-    }
+//    @Bean
+//    ClientRegistrationRepository clientRegistrationRepository() {
+//        ClientRegistration github= githubClientRegistration();
+////        ClientRegistration facebook= facebookClientRegistration();
+//        return new InMemoryClientRegistrationRepository(github);
+//    }
+//
+//    private ClientRegistration githubClientRegistration() {
+//       return CommonOAuth2Provider.GITHUB.getBuilder("github")
+//                .clientId("Ov23livRxqwT0t5jEXrt").clientSecret("8ee1219ebe3c749b5191a013d0b39ff00666b98c").build();
+//
+//    }
 
 //    private ClientRegistration facebookClientRegistration() {
 //        return CommonOAuth2Provider.FACEBOOK.getBuilder("facebook")

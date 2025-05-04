@@ -13,7 +13,7 @@ public class SecurityController {
         if(authentication instanceof UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
             System.out.println("User with simple: " + usernamePasswordAuthenticationToken);
         }else if (authentication instanceof OAuth2AuthenticationToken oAuth2AuthenticationToken){
-            System.out.println("User with OAuth: " + oAuth2AuthenticationToken.getPrincipal().getAttributes());
+           System.out.println("User with OAuth: " + oAuth2AuthenticationToken.getPrincipal().getAttributes());
 
         }
         return "secure.html";
