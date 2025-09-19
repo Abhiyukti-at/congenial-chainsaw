@@ -1,0 +1,7 @@
+io/nikita/OAuth2AuthServer/model/Authority.class
+io/nikita/OAuth2AuthServer/CustomUserDetailService.class
+io/nikita/OAuth2AuthServer/repository/CustomerRepository.class
+io/nikita/OAuth2AuthServer/config/SecurityConfig.class
+io/nikita/OAuth2AuthServer/model/Customer.class
+io/nikita/OAuth2AuthServer/OAuth2AuthServerApplication.class
+io/nikita/OAuth2AuthServer/UsernamePasswordAuthenticationProvider.class
